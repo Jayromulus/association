@@ -40,40 +40,40 @@ router.route('/parent')
     }
   })
 
-router.route('/sibling')
+router.route('/spouse')
   .post(async (req, res) => {
     try {
-      await Sibling.create(
+      await Spouse.create(
         { name: req.body.name }
       )
-      res.status(200).json({ message: 'New Sibling Created!' })
+      res.status(200).json({ message: 'New Spouse Created!' })
     } catch (e) {
       res.status(500).json({ error: e })
     }
   })
   .put(async (req, res) => {
     try {
-      await Sibling.update(
+      await Spouse.update(
         { name: req.body.newname },
         { where: { name: req.body.name } }
       )
-      res.status(200).json({ message: 'Sibling Updated!' })
+      res.status(200).json({ message: 'Spouse Updated!' })
     } catch (e) {
       res.status(500).json({ error: e })
     }
   })
   .delete(async (req, res) => {
     try {
-      await Sibling.destroy({ where: { name: req.body.name } })
-      res.status(200).json({ message: 'Sibling Deleted' })
+      await Spouse.destroy({ where: { name: req.body.name } })
+      res.status(200).json({ message: 'Spouse Deleted' })
     } catch (e) {
       res.status(500).json({ error: e })
     }
   })
   .get(async (req, res) => {
     try {
-      let siblings = await Sibling.findAll()
-      res.status(200).json({ message: 'Siblings Found', siblings })
+      let spouses = await Spouse.findAll()
+      res.status(200).json({ message: 'Spouses Found', spouses })
     } catch (e) {
       res.status(500).json({ error: e })
     }
