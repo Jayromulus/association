@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Parent, Sibling, Child } = require('../models')
+const { Parent, Spouse, Child } = require('../models')
 
 router.route('/parent')
   .post(async (req, res) => {
