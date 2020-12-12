@@ -33,7 +33,7 @@ router.route('/parent')
   })
   .get(async (req, res) => {
     try {
-      let parents = await Parent.findAll()
+      let parents = await Parent.findAll({ include: [{model: Spouse, as: 'otherHalf'}, {model: Child, as: 'children', attributes: ['name']}] })
       res.status(200).json({ message: 'Parents Found', parents })
     } catch (e) {
       res.status(500).json({ error: e })
@@ -44,7 +44,7 @@ router.route('/spouse')
   .post(async (req, res) => {
     try {
       await Spouse.create(
-        { name: req.body.name }
+        { name: req.body.name, otherHalfId: req.body.otherHalf }
       )
       res.status(200).json({ message: 'New Spouse Created!' })
     } catch (e) {
@@ -72,7 +72,8 @@ router.route('/spouse')
   })
   .get(async (req, res) => {
     try {
-      let spouses = await Spouse.findAll()
+      let spouses = await Spouse.findAll({ include: [{model: Parent, as: 'otherHalf'}] })
+      // let spouses = await Spouse.findAll({ include: 'otherHalf' })
       res.status(200).json({ message: 'Spouses Found', spouses })
     } catch (e) {
       res.status(500).json({ error: e })
@@ -83,7 +84,7 @@ router.route('/child')
   .post(async (req, res) => {
     try {
       await Child.create(
-        { name: req.body.name }
+        { name: req.body.name, parentId: req.body.parent }
       )
       res.status(200).json({ message: 'New Child Created!' })
     } catch (e) {
